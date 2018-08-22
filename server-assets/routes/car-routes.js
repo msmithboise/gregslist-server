@@ -17,9 +17,24 @@ router.get('/:id?', (req, res, next) => {
     })
 })
 
+
+router.get('/model/:model', (req, res, next) => {
+    if(req.params.model) {
+    Car.find({model: req.params.model})
+    .then(cars =>{
+        return res.send(cars)
+    })
+}
+})
+
+
+
+
 router.post('/', (req, res, next) => {
   let newCar = req.body
+  //send car to database
   Car.create(newCar)
+    //car comes back from database
     .then(car => {
       res.send(car)
     })
@@ -33,6 +48,7 @@ router.put('/:id', (req, res, next) => {
   Car.findByIdAndUpdate(req.params.id, req.body, {
       new: true
     })
+    //edited car coming back from the db
     .then(newCar => {
       res.send(newCar)
     })
